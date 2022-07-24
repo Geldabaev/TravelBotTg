@@ -28,11 +28,11 @@ kb_menu1 = KeyboardButton('СOЧИ') # сочи о на анг, чтобы не 
 kb_menu2 = KeyboardButton('АБХАЗИЯ')
 kb_menu3 = KeyboardButton('МОРЕ')
 kb_menu4 = KeyboardButton('АКТИВ')
-kb_menu5 = KeyboardButton('Прочее')
+# kb_menu5 = KeyboardButton('Прочее')
 kb_menu6 = KeyboardButton('Корректировка заявки')
 kb_menu7 = KeyboardButton('Отмена заявки')
 kb_client_menu = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_client_menu.add(kb_menu0).row(kb_menu1, kb_menu2).row(kb_menu3, kb_menu4).add(kb_menu5).row(kb_menu6, kb_menu7)
+kb_client_menu.add(kb_menu0).row(kb_menu1, kb_menu2).row(kb_menu3, kb_menu4).row(kb_menu6, kb_menu7)
 
 
 # сочи
@@ -170,9 +170,9 @@ kb_menu11 = KeyboardButton('СOЧИ') # сочи о на анг, чтобы не
 kb_menu21 = KeyboardButton('АБХАЗИЯ')
 kb_menu31 = KeyboardButton('МОРЕ')
 kb_menu41 = KeyboardButton('АКТИВ')
-kb_menu51 = KeyboardButton('Прочее')
+# kb_menu51 = KeyboardButton('Прочее')
 kb_client_menu2 = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_client_menu2.row(kb_menu11, kb_menu21).row(kb_menu31, kb_menu41).add(kb_menu51)
+kb_client_menu2.row(kb_menu11, kb_menu21).row(kb_menu31, kb_menu41)#.add(kb_menu51)
 
 
 net = KeyboardButton('Нет')

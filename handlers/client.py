@@ -1,7 +1,7 @@
 from aiogram import types, Dispatcher
 from create_bot import dp, bot
 from keyboards import zz_zayav, kb_contact, kb_client_menu, kb_client_sochy, kb_client_abhaz, kb_client_voda
-from keyboards import kb_client_vozduh, kb_client_proch, kb_client_menu2, open_menu_file
+from keyboards import kb_client_vozduh, kb_client_menu2, open_menu_file  #kb_client_proch,
 from excel_loader import edit2
 
 # список кому доступна кнопка вывод excel file
@@ -154,11 +154,11 @@ async def vozduh(message : types.Message):
     msg_id_bot.append(msgBot)
 
 # @dp.message_handler(commands="Прочее")
-async def proch(message : types.Message):
-    msgUser = message  # берем msg пользователя, чтобы потом удалить его
-    msg_id_user.append(msgUser)
-    msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=kb_client_proch)
-    msg_id_bot.append(msgBot)
+# async def proch(message : types.Message):
+#     msgUser = message  # берем msg пользователя, чтобы потом удалить его
+#     msg_id_user.append(msgUser)
+#     msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=kb_client_proch)
+#     msg_id_bot.append(msgBot)
 
 def regiter_handlers_client(dp : Dispatcher):
     dp.register_message_handler(commands_start, commands=['start', 'help'])
@@ -168,5 +168,5 @@ def regiter_handlers_client(dp : Dispatcher):
     dp.register_message_handler(abhaz, lambda message: 'АБХАЗИЯ' in message.text)
     dp.register_message_handler(voda, lambda message: 'МОРЕ' in message.text)
     dp.register_message_handler(vozduh, lambda message: 'АКТИВ' in message.text)
-    dp.register_message_handler(proch, lambda message: 'Прочее' in message.text)
+    # dp.register_message_handler(proch, lambda message: 'Прочее' in message.text)
     dp.register_message_handler(file_excel_loader, lambda message: 'Вывести файл' in message.text)
