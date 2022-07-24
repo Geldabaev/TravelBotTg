@@ -226,7 +226,6 @@ async def load_stoim_bespl(message: types.Message, state: FSMContext):
 async def spr_naz_zvat_bespl(message: types.Message, state: FSMContext):
     global naz_bes
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
-    print(msgUser, "что тут?11")
     msg_id_user.append(msgUser)
     # берем название остановки
     if punkt == 1:
@@ -242,7 +241,6 @@ async def spr_naz_zvat_bespl(message: types.Message, state: FSMContext):
             data["stoim_chi_1"] = message.text
             besplat[message.chat.id] = message.text
             msgBot = await bot.send_message(message.chat.id, "Введите название остановки")
-            print("Введите 2")
             msg_id_bot.append(msgBot)
     await FSMAdvvod.next()  # режим ожидания
 
@@ -252,7 +250,6 @@ async def spr_naz_zvat_bespl(message: types.Message, state: FSMContext):
 async def ber_naz(message: types.Message, state: FSMContext):
     if punkt == 2:
         msgUser = message  # берем msg пользователя, чтобы потом удалить его
-        print(msgUser, "что тут2?")
         msg_id_user.append(msgUser)
     async with state.proxy() as data:
         data["naz_ost"] = message.text
