@@ -44,6 +44,9 @@ commands_data = ['Красная Поляна', 'Обзорная Сочи', '33
 # список исключений
 commands_excep = ['АРЕНДА ЯХТ', 'Вертолёт']#, 'ИНДИВИДУАЛЬНЫЙ ТУР', ]
 
+
+dataButtons = ['Индивид.', 'ДРУГОЕ']
+
 # сегодня завтра
 # @dp.message_handler(commands='укажите...', state=None)
 async def dat_ukaz(message : types.Message):
@@ -437,7 +440,7 @@ async def ispravit(message : types.Message):
 
 # Регистрируем хендлеры
 def register_handlers_opros(dp : Dispatcher):
-    dp.register_message_handler(dat_ukaz, lambda message: message.text in commands_data)
+    dp.register_message_handler(dat_ukaz, lambda message: message.text in commands_data or message.text in dataButtons)
     # машинное состояние
     dp.register_message_handler(today_or_tomorrow, lambda message: message.text in 'Сегодня' or message.text in 'Завтра', state=None)
     dp.register_message_handler(load_vzrosl_skok, state=FSMAdvvod.vzrosl_skok)
