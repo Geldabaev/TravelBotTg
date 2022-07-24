@@ -29,10 +29,14 @@ kb_menu2 = KeyboardButton('АБХАЗИЯ')
 kb_menu3 = KeyboardButton('МОРЕ')
 kb_menu4 = KeyboardButton('АКТИВ')
 # kb_menu5 = KeyboardButton('Прочее')
+
+kb_button_individual = KeyboardButton('Индивид.')  # будут приниматься как тур, и после них сразу дата
+kb_button_other = KeyboardButton('ДРУГОЕ')  # будут приниматься как тур, и после них сразу дата
+
 kb_menu6 = KeyboardButton('Корректировка заявки')
 kb_menu7 = KeyboardButton('Отмена заявки')
 kb_client_menu = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_client_menu.add(kb_menu0).row(kb_menu1, kb_menu2).row(kb_menu3, kb_menu4).row(kb_menu6, kb_menu7)
+kb_client_menu.add(kb_menu0).row(kb_menu1, kb_menu2).row(kb_menu3, kb_menu4).row(kb_menu6, kb_menu7).row(kb_button_individual, kb_button_other)
 
 
 # сочи
@@ -99,6 +103,8 @@ kb_client_vozduh.row(kb_vozduh_var5, kb_vozduh_var9).row(kb_vozduh_var7, kb_vozd
 #kb_proch_var8 = KeyboardButton('ДРУГОЕ')
 #kb_client_proch = ReplyKeyboardMarkup(resize_keyboard=True)
 #kb_client_proch.row(kb_proch_var1, kb_proch_var2).row(kb_proch_var3, kb_proch_var4).row(kb_proch_var5, kb_proch_var6).row(kb_proch_var7, kb_proch_var8)
+
+
 
 
 # сегодня зватра
@@ -172,7 +178,7 @@ kb_menu31 = KeyboardButton('МОРЕ')
 kb_menu41 = KeyboardButton('АКТИВ')
 # kb_menu51 = KeyboardButton('Прочее')
 kb_client_menu2 = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_client_menu2.row(kb_menu11, kb_menu21).row(kb_menu31, kb_menu41)#.add(kb_menu51)
+kb_client_menu2.row(kb_menu11, kb_menu21).row(kb_menu31, kb_menu41).row(kb_button_individual, kb_button_other)
 
 
 net = KeyboardButton('Нет')
