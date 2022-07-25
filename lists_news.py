@@ -1,9 +1,11 @@
-import schedule
+#/home/runas/PycharmProjects/pythonProject2/venv/bin/python
+# /home/runas/PycharmProjects/pythonProject2/venv/bin/python /home/runas/PycharmProjects/pythonProject2/lists_news.py
+# import schedule
 from datetime import datetime
 import openpyxl
-import time
+# import time
 
-"""Этот скрипт должен запускаться отдельно, от всего проекта или в отдельном потоку"""
+
 def greeting():
     global gauth
     cur_date = datetime.now().strftime("%d_%m_%Y")
@@ -29,11 +31,17 @@ def greeting():
     book.save("my_book.xlsx")
     book.close()
 
-# запуск функции в каждый день в определенное время
-schedule.every().days.at('00:01').do(greeting)
-# schedule.every(1).minutes.do(greeting) # для теста
+# # запуск функции в каждый день в определенное время
+# schedule.every().days.at('00:01').do(greeting)
+# # schedule.every(1).minutes.do(greeting) # для теста
+#
+# while True:
+#     time.sleep(20)
+#     print("Работаю")
+#     schedule.run_pending()
+def main():
+    greeting()
 
-while True:
-    time.sleep(20)
-    print("Работаю")
-    schedule.run_pending()
+
+if __name__ == '__main__':
+    main()
