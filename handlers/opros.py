@@ -172,6 +172,12 @@ async def price_child_1_or_besplat(message: types.Message, state: FSMContext):
     global posadoch, besplat, punkt, stoim_chi_1
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
+    try:
+        iit = int(message.text)
+    except Exception as ex:
+        msgBot = await bot.send_message(message.chat.id, "Введите число!")
+        msg_id_bot.append(msgBot)
+        return  # чтобы преспрашивали
     if message.text == '0':
         punkt = 1
         async with state.proxy() as data:
@@ -198,8 +204,6 @@ async def price_child_1_or_besplat(message: types.Message, state: FSMContext):
 # @dp.message_handler(state=FSMAdvvod.stoim_chid_1)
 async def load_stoim_bespl(message: types.Message, state: FSMContext):
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
-    print(msgUser,"???????????//")
-    print(msgUser.text, "383838383883838388383838388383838")
     msg_id_user.append(msgUser)
     # чтобы принимал только в цифрах
     try:
@@ -226,13 +230,19 @@ async def load_stoim_bespl(message: types.Message, state: FSMContext):
     await FSMAdvvod.next()  # режим ожидания
 
 
-
 # Ловим четвертый пятый
 # @dp.message_handler(state=FSMAdvvod.naz_bes)
 async def spr_naz_zvat_bespl(message: types.Message, state: FSMContext):
     global naz_bes
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
+
+    try:
+        iit = int(message.text)
+    except Exception as ex:
+        msgBot = await bot.send_message(message.chat.id, "Введите число!")
+        msg_id_bot.append(msgBot)
+        return  # чтобы преспрашивали
     # берем название остановки
     if punkt == 1:
         async with state.proxy() as data:
@@ -261,7 +271,6 @@ async def ber_naz(message: types.Message, state: FSMContext):
         data["naz_ost"] = message.text
         naz_bes[message.chat.id] = message.text
     msgBot = await bot.send_message(message.chat.id, "Введите номер телефона туриста", reply_markup=kb_tel)
-    print(msgBot.text, "Введите номер телефона туриста***********")
     msg_id_bot.append(msgBot)
     await FSMAdvvod.next() # режим ожидания
 
@@ -332,14 +341,13 @@ async def verno(message : types.Message):
     global number
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
-    print(len(msg_id_bot), "BBbOOOOOOOOOtttttttt")
 
     for i in msg_id_bot:  # удаляем все лишнее сообщения от бота
         # await asyncio.sleep(0.5)
         print(i.text, "Удаляю...................")
         await i.delete()
     msg_id_bot.clear()
-    print(len(msg_id_bot), "UUUUssssssssseeeeeeeeerrrrrrr")
+
 
     for i in msg_id_user: # удаляем все лишнее сообщения от пользователя
         if i is not None:
