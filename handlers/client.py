@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from aiogram import types, Dispatcher
 from create_bot import dp, bot
 from keyboards import zz_zayav, kb_contact, kb_client_menu, kb_client_sochy, kb_client_abhaz, kb_client_voda
@@ -56,12 +58,18 @@ async def file_excel_loader(message : types.Message):
     #     await i.delete()  # удаляем смс бота
     # await msgs.delete()  # удаляем смс бота
 
-
-
-
-
+new_data = []
 # @dp.message_handler(commands=['Заполнить_заявку'])
 async def otkr_menu(message : types.Message):
+    from lists_news import old_data, greeting
+    data = datetime.now().strftime("%d_%m_%Y")
+    new_data.clear()
+    new_data.append(data)
+    if old_data != new_data:
+        print(new_data, "new data")# если даты не совпадают, значит другой день, и создаем новый лист в файле
+        print(old_data, "old data")# если даты не совпадают, значит другой день, и создаем новый лист в файле
+        greeting()
+     # если совпали, значит тот же день, и нет нужды в создании нового листа
     name_sud_vrem.clear() # чистим список, чтобы при повторном зявке не было так как будно он выбрал море
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)

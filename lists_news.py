@@ -1,14 +1,14 @@
-#/home/runas/PycharmProjects/pythonProject2/venv/bin/python
-# /home/runas/PycharmProjects/pythonProject2/venv/bin/python /home/runas/PycharmProjects/pythonProject2/lists_news.py
-# import schedule
 from datetime import datetime
 import openpyxl
-# import time
+
+old_data = []  # чтобы сравнить дату с датой при запросе на заявку, чтобы сравнить и создать лист если даты разные
 
 
 def greeting():
-    global gauth
+    global gauth, old_data
     cur_date = datetime.now().strftime("%d_%m_%Y")
+    old_data.clear()  # чистим предыдущую дату. Список создали всесто обычной переменной, чтобы пожно было импортировать без потеря данных
+    old_data.append(cur_date)
     try:
         # если файл есть дописываем
         book = openpyxl.load_workbook("my_book.xlsx")
@@ -31,14 +31,7 @@ def greeting():
     book.save("my_book.xlsx")
     book.close()
 
-# # запуск функции в каждый день в определенное время
-# schedule.every().days.at('00:01').do(greeting)
-# # schedule.every(1).minutes.do(greeting) # для теста
-#
-# while True:
-#     time.sleep(20)
-#     print("Работаю")
-#     schedule.run_pending()
+
 def main():
     greeting()
 

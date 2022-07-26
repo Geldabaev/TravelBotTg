@@ -1,9 +1,15 @@
-import requests
-from requests import request
+from crontab import CronTab
 
+cron = CronTab(user='runas')
 
-res = requests.get(url='https://google.com')
-print(res)
+job1 = cron.new(command='python /home/runas/PycharmProjects/pythonProject2/lists_news.py')
 
-with open('/home/runas/PycharmProjects/pythonProject2/text.txt', "a") as file:
-    file.write(f"{res}\n")
+job1.minute.every(1)
+
+job2 = cron.new(command='python /home/runas/PycharmProjects/pythonProject2/lists_news.py')
+job2.every(1).minute()
+
+for item in cron:
+    print(item)
+
+cron.write()

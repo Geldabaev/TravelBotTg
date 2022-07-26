@@ -44,7 +44,6 @@ commands_data = ['Красная Поляна', 'Обзорная Сочи', '33
 # список исключений
 commands_excep = ['АРЕНДА ЯХТ', 'Вертолёт']#, 'ИНДИВИДУАЛЬНЫЙ ТУР', ]
 
-
 dataButtons = ['Индивид.', 'ДРУГОЕ']
 
 # сегодня завтра
@@ -111,6 +110,13 @@ async def load_vzrosl_skok(message: types.Message, state: FSMContext):
     global vz_sk
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
+    try:
+        iit = int(message.text)
+    except Exception as ex:
+        msgBot = await bot.send_message(message.chat.id, "Введите число!")
+        msg_id_bot.append(msgBot)
+        return  # чтобы преспрашивали
+
     async with state.proxy() as data:
         data["vzrosl_skok"] = message.text
         vz_sk[message.chat.id] = message.text
