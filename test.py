@@ -1,15 +1,7 @@
-from crontab import CronTab
+from datetime import datetime
+import copy
 
-cron = CronTab(user='runas')
 
-job1 = cron.new(command='python /home/runas/PycharmProjects/pythonProject2/lists_news.py')
-
-job1.minute.every(1)
-
-job2 = cron.new(command='python /home/runas/PycharmProjects/pythonProject2/lists_news.py')
-job2.every(1).minute()
-
-for item in cron:
-    print(item)
-
-cron.write()
+cur_date = datetime.now().strftime("%d_%m_%Y").split("_")[1]
+fff = copy.copy(cur_date)
+print(fff)

@@ -62,13 +62,15 @@ new_data = []
 # @dp.message_handler(commands=['Заполнить_заявку'])
 async def otkr_menu(message : types.Message):
     from lists_news import old_data, greeting
-    data = datetime.now().strftime("%d_%m_%Y")
+    data = datetime.now().strftime("%d_%m_%Y").split("_")[1]
+    print(data, "data")
     new_data.clear()
     new_data.append(data)
     if old_data != new_data:
-        print(new_data, "new data")# если даты не совпадают, значит другой день, и создаем новый лист в файле
-        print(old_data, "old data")# если даты не совпадают, значит другой день, и создаем новый лист в файле
+        # если даты не совпадают, значит другой день, и создаем новый лист в файле
+        # если даты не совпадают, значит другой день, и создаем новый лист в файле
         greeting()
+
      # если совпали, значит тот же день, и нет нужды в создании нового листа
     name_sud_vrem.clear() # чистим список, чтобы при повторном зявке не было так как будно он выбрал море
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
@@ -161,12 +163,6 @@ async def vozduh(message : types.Message):
     msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=kb_client_vozduh)
     msg_id_bot.append(msgBot)
 
-# @dp.message_handler(commands="Прочее")
-# async def proch(message : types.Message):
-#     msgUser = message  # берем msg пользователя, чтобы потом удалить его
-#     msg_id_user.append(msgUser)
-#     msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=kb_client_proch)
-#     msg_id_bot.append(msgBot)
 
 def regiter_handlers_client(dp : Dispatcher):
     dp.register_message_handler(commands_start, commands=['start', 'help'])
@@ -176,5 +172,4 @@ def regiter_handlers_client(dp : Dispatcher):
     dp.register_message_handler(abhaz, lambda message: 'АБХАЗИЯ' in message.text)
     dp.register_message_handler(voda, lambda message: 'МОРЕ' in message.text)
     dp.register_message_handler(vozduh, lambda message: 'АКТИВ' in message.text)
-    # dp.register_message_handler(proch, lambda message: 'Прочее' in message.text)
     dp.register_message_handler(file_excel_loader, lambda message: 'Вывести файл' in message.text)

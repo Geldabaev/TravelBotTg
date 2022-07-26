@@ -1,3 +1,4 @@
+import copy
 from datetime import datetime
 import openpyxl
 
@@ -6,9 +7,11 @@ old_data = []  # чтобы сравнить дату с датой при за�
 
 def greeting():
     global gauth, old_data
-    cur_date = datetime.now().strftime("%d_%m_%Y")
+    cur_date = datetime.now().strftime("%d_%m_%Y")  #название листа
+
+    data_month = copy.copy(cur_date.split("_")[1])  # копия для сравнений
     old_data.clear()  # чистим предыдущую дату. Список создали всесто обычной переменной, чтобы пожно было импортировать без потеря данных
-    old_data.append(cur_date)
+    old_data.append(data_month)
     try:
         # если файл есть дописываем
         book = openpyxl.load_workbook("my_book.xlsx")
