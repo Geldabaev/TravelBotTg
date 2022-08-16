@@ -237,12 +237,7 @@ async def spr_naz_zvat_bespl(message: types.Message, state: FSMContext):
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
 
-    try:
-        iit = int(message.text)
-    except Exception as ex:
-        msgBot = await bot.send_message(message.chat.id, "Введите число!")
-        msg_id_bot.append(msgBot)
-        return  # чтобы преспрашивали
+
     # берем название остановки
     if punkt == 1:
         async with state.proxy() as data:
@@ -253,6 +248,12 @@ async def spr_naz_zvat_bespl(message: types.Message, state: FSMContext):
             await ber_naz(message, state)
     # берем сколько детей бесплатно и говорим ведите название остановки
     elif punkt == 2:
+        try:
+            iit = int(message.text)
+        except Exception as ex:
+            msgBot = await bot.send_message(message.chat.id, "Введите число!")
+            msg_id_bot.append(msgBot)
+            return  # чтобы преспрашивали
         async with state.proxy() as data:
             data["stoim_chi_1"] = message.text
             besplat[message.chat.id] = message.text
@@ -393,7 +394,8 @@ async def verno(message : types.Message):
                                          f"Дети (бесплатно): {besplat[message.chat.id]}\n"
                                          f"Остановка: {naz_bes[message.chat.id]}\n"
                                          f"Телефон туриста: {nom_tel_tur[message.chat.id]}\n"
-                                         f"Доп. информация: {dop_inf[message.chat.id]}")
+                                         f"Доп. информация: {dop_inf[message.chat.id]}"
+                                         f"Агент: {user_name[message.chat.id]}")
 
         # # Сохраним данные
         text_im = loader(edit, message.chat.id, user_name[message.chat.id], sp_phone[message.chat.id], sp_tur[message.chat.id],
@@ -435,7 +437,7 @@ async def verno(message : types.Message):
                                                       f"Остановка: {naz_bes[message.chat.id]}\n"
                                                       f"Телефон туриста: {nom_tel_tur[message.chat.id]}\n"
                                                       f"Доп. информация: {dop_inf[message.chat.id]}"
-                                     )
+                                                      f"Агент: {user_name[message.chat.id]}")
 
 
 # после подверждения правильности данных даем номер заявки
