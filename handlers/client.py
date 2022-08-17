@@ -182,7 +182,7 @@ def regiter_handlers_client(dp : Dispatcher):
                         text = button['text']
                         status = button['status']
                         if status == 1:
-                            pass
+                            passvfsdvsd
                         if text == "Открыть меню":
                             print("Одноооооооооооо")
                             print(type(text))
