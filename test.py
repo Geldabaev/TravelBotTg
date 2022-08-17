@@ -1,7 +1,9 @@
-from datetime import datetime
-import copy
+# for i, b, t, c in range(5):
+#     print(i, "i")
+#     print(b, "b")
+#     print(t, "t")
+#     print(c, "c")
+#     print("jjjjjjjj")
 
-
-cur_date = datetime.now().strftime("%d_%m_%Y").split("_")[1]
-fff = copy.copy(cur_date)
-print(fff)
+text = [i for i in range(5)]
+print(text)

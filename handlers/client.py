@@ -1,9 +1,12 @@
+import copy
 from datetime import datetime
 from aiogram import types, Dispatcher
 from create_bot import dp, bot
 from keyboards import zz_zayav, kb_contact, kb_client_menu, kb_client_sochy, kb_client_abhaz, kb_client_voda
 from keyboards import kb_client_vozduh, kb_client_menu2, open_menu_file  #kb_client_proch,
 from excel_loader import edit2
+
+from kbs import menu
 
 # список кому доступна кнопка вывод excel file
 excel_files = ['489322950', '1189955796', '631293008', '5295520075']
@@ -62,7 +65,7 @@ new_data = []
 async def otkr_menu(message : types.Message):
     from lists_news import old_data, greeting
     data = datetime.now().strftime("%d_%m_%Y").split("_")[1]
-    print(data, "data")
+    # print(data, "data")
     new_data.clear()
     new_data.append(data)
     if old_data != new_data:
@@ -165,10 +168,36 @@ async def vozduh(message : types.Message):
 
 def regiter_handlers_client(dp : Dispatcher):
     dp.register_message_handler(commands_start, commands=['start', 'help'])
-    dp.register_message_handler(otkr_menu, lambda message: 'Открыть меню' in message.text)
+    dp.register_message_handler(commands_start, commands=['start', 'help'])
     dp.register_message_handler(contact, content_types=['contact'])
-    dp.register_message_handler(sochy, lambda message: 'СOЧИ' in message.text) # сочи о на анг, чтобы не среагировал на обзор на сочи кнопку
-    dp.register_message_handler(abhaz, lambda message: 'АБХАЗИЯ' in message.text)
-    dp.register_message_handler(voda, lambda message: 'МОРЕ' in message.text)
-    dp.register_message_handler(vozduh, lambda message: 'АКТИВ' in message.text)
-    dp.register_message_handler(file_excel_loader, lambda message: 'Вывести файл' in message.text)
+
+    for option in menu:
+        _name = option['name']
+        if _name != 'menu1':
+            for keyboard in option['keyboards']:
+                _handler = keyboard['handler']
+                if _handler != 'dat_ukaz':
+                    _handler = eval(_handler)
+                    for button in keyboard['buttons']:
+                        text = button['text']
+                        status = button['status']
+                        if status == 1:
+                            pass
+                        if text == "Открыть меню":
+                            print("Одноооооооооооо")
+                            print(type(text))
+                            print(type("Открыть меню"))
+                            print(text)
+                            print("Открыть меню")
+                            textMessage = copy.copy(text)
+                            # dp.register_message_handler(_handler, lambda message: "Открыть меню" in message.text)  # работает
+                            dp.register_message_handler(_handler, lambda message: textMessage in message.text)  # не работает
+
+
+    # dp.register_message_handler(otkr_menu, lambda message: 'Открыть меню' in message.text)
+    dp.register_message_handler(contact, content_types=['contact'])
+    # dp.register_message_handler(sochy, lambda message: 'СOЧИ' in message.text) # сочи о на анг, чтобы не среагировал на обзор на сочи кнопку
+    # dp.register_message_handler(abhaz, lambda message: 'АБХАЗИЯ' in message.text)
+    # dp.register_message_handler(voda, lambda message: 'МОРЕ' in message.text)
+    # dp.register_message_handler(vozduh, lambda message: 'АКТИВ' in message.text)
+    # dp.register_message_handler(file_excel_loader, lambda message: 'Вывести файл' in message.text)
