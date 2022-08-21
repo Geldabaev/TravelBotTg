@@ -8,6 +8,8 @@ from excel_loader import edit2
 
 from kbs import menu
 
+from client_commands import get_commands_client
+
 # список кому доступна кнопка вывод excel file
 excel_files = ['489322950', '1189955796', '631293008', '5295520075']
 msg_id_bot = []
@@ -166,32 +168,39 @@ async def vozduh(message : types.Message):
     msg_id_bot.append(msgBot)
 
 
+async def all_handler(message : types.Message):
+
+    # print(message)
+
+    for option in menu:
+
+        _name = option['name']
+
+        if _name != 'menu1':
+
+            for keyboard in option['keyboards']:
+
+                _handler = keyboard['handler']
+
+                if _handler != 'dat_ukaz':
+
+                    for button in keyboard['buttons']:
+
+                        text = button['text']
+                        status = button['status']
+
+                        if status == 1 and text == message.text:  # status 1 команда активна
+                            await eval(_handler)(message)  # eval(_handler) перевод str в функцию и (message) запуск
+
+
+cmnds = get_commands_client(menu)  # определяет команду клиента используя словарь из client_commands.py
 def regiter_handlers_client(dp : Dispatcher):
+
     dp.register_message_handler(commands_start, commands=['start', 'help'])
     dp.register_message_handler(commands_start, commands=['start', 'help'])
     dp.register_message_handler(contact, content_types=['contact'])
 
-    for option in menu:
-        _name = option['name']
-        if _name != 'menu1':
-            for keyboard in option['keyboards']:
-                _handler = keyboard['handler']
-                if _handler != 'dat_ukaz':
-                    _handler = eval(_handler)
-                    for button in keyboard['buttons']:
-                        text = button['text']
-                        status = button['status']
-                        if status == 1:
-                            passvfsdvsd
-                        if text == "Открыть меню":
-                            print("Одноооооооооооо")
-                            print(type(text))
-                            print(type("Открыть меню"))
-                            print(text)
-                            print("Открыть меню")
-                            textMessage = copy.copy(text)
-                            # dp.register_message_handler(_handler, lambda message: "Открыть меню" in message.text)  # работает
-                            dp.register_message_handler(_handler, lambda message: textMessage in message.text)  # не работает
+    dp.register_message_handler(all_handler, lambda message: message.text in cmnds)  # определяет нужную функцию используя словарь из kbs.py
 
 
     # dp.register_message_handler(otkr_menu, lambda message: 'Открыть меню' in message.text)
