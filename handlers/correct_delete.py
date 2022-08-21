@@ -166,7 +166,7 @@ async def yes_now_otm(message : types.Message, state: FSMContext):
     if message.text == "Да":
         otv = delete_z(message.chat.id, number_otm)
         # пресылаем в групп
-        group_id = '-1001679490716'
+        group_id = '-1001632324261'
         next_id = number_otm
         await bot.send_message(group_id, f"Агент: {user_name} {sp_phone}\n"
                                          f"Заявка под номером {next_id} отменена!")
