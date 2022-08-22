@@ -189,4 +189,3 @@ def delete_z(chat_id, number_otm):
 
     return "Ваша заявка отменена!"
 
-
