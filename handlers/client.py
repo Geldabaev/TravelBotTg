@@ -9,6 +9,7 @@ from kbs import menu
 from dinamic_kbs import arr
 
 from client_commands import get_commands_client
+from excel_loader import phone_number
 
 # список кому доступна кнопка вывод excel file
 excel_files = ['489322950', '1189955796', '631293008', '5295520075', '761301862']
@@ -65,6 +66,7 @@ async def file_excel_loader(message : types.Message):
 new_data = []
 # @dp.message_handler(commands=['Заполнить_заявку'])
 async def otkr_menu(message : types.Message):
+    global phone_contact
     from lists_news import old_data, greeting
     data = datetime.now().strftime("%d_%m_%Y").split("_")[1]
     # print(data, "data")
@@ -79,8 +81,23 @@ async def otkr_menu(message : types.Message):
     name_sud_vrem.clear() # чистим список, чтобы при повторном зявке не было так как будно он выбрал море
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
-    msgBot = await message.answer("Поделитесь номером телефона", reply_markup=kb_contact)
-    msg_id_bot.append(msgBot)
+    phone_contact = await phone_number(message.chat.id)  # чтобы не переспрашивать номер
+    print(phone_contact, "phone_contact")
+    if phone_contact:
+        if edit2['is'] == 0:
+            msgBot = await bot.send_message(message.chat.id, 'Меню', reply_markup=arr['kb_client_menu'])
+            msg_id_bot.append(msgBot)
+            # print(msg_id)
+        else:
+            msgBot = await bot.send_message(message.chat.id, 'Меню', reply_markup=kb_client_menu2)
+            msg_id_bot.append(msgBot)
+            # print(msg_id)
+        phonenumber= str(phone_contact)
+        # для вывода в тг создаем список
+        sp_phone[message.chat.id] = phonenumber
+    else:
+        msgBot = await message.answer("Поделитесь номером телефона", reply_markup=kb_contact)
+        msg_id_bot.append(msgBot)
 
 
 sp_phone = {}
@@ -205,9 +222,9 @@ def regiter_handlers_client(dp : Dispatcher):
 
     dp.register_message_handler(commands_start, commands=['start', 'help'])
     dp.register_message_handler(contact, content_types=['contact'])
+
     dp.register_message_handler(AdminPanellFunk, lambda message: message.text in 'Админ панель')
 
-    dp.register_message_handler(contact, content_types=['contact'])
     dp.register_message_handler(otkr_menu, lambda message: 'Открыть меню' in message.text)
     dp.register_message_handler(file_excel_loader, lambda message: 'Вывести файл' in message.text)
 

@@ -156,6 +156,26 @@ def write_zayav(number, id):
                 return "Это не ваша заявка!"
 
 
+async def phone_number(user_id):
+    """Чтобы не переспрашивать пользователя его номер"""
+    try:
+        book = openpyxl.open("my_book.xlsx", read_only=True)
+    except:
+        return 'Заявок еще нет!'
+
+    # берем последний лист
+    sheet = book.active
+
+    # ходим по всем заявкам ищя id пользователя
+    for row in range(2, sheet.max_row + 1):
+        if int(sheet[f'B{row}'].value) == int(user_id):
+            phone = int(sheet[f'D{row}'].value)  # если  id есть, берем его номер
+            return phone
+        return False  # его контакта нет
+
+
+
+
 # отмена заявки и окрашивание в красный цвет
 def delete_z(chat_id, number_otm):
 
