@@ -1,50 +1,54 @@
 menu = [
+    # {
+    #     'name': 'menu1',
+    #     'keyboards': [
+    #         {
+    #             'buttons': [
+    #                 {
+    #                     'id': 'open_menu',
+    #                     'text': 'Открыть меню',
+    #                     'status': 1
+    #                 }
+    #             ],
+    #             'handler': 'otkr_menu'
+    #         }
+    #     ],
+    #     'type': 'row'
+    # },
+    # {
+    #     'name': 'menu2',
+    #     'keyboards': [
+    #         {
+    #             'buttons': [
+    #                 {
+    #                     'id': 'open_menu2',
+    #                     'text': 'Открыть меню',
+    #                     'status': 1
+    #                 }
+    #             ],
+    #             'handler': 'otkr_menu'
+    #         },
+    #         {
+    #             'buttons': [
+    #                 {
+    #                     'id': 'open_file',
+    #                     'text': 'Вывести файл',
+    #                     'status': 1
+    #                 }
+    #             ],
+    #             'handler': 'file_excel_loader',
+    #             'status': 1
+    #         },
+    #     ],
+    #     'type': 'row'
+    # },
     {
-        'name': 'menu1',
+        'name': 'kb_client_menu',
         'keyboards': [
             {
                 'buttons': [
                     {
-                        'text': 'Открыть меню',
-                        'status': 1
-                    }
-                ],
-                'handler': 'otkr_menu'
-            }
-        ],
-        'type': 'row'
-    },
-    {
-        'name': 'menu2',
-        'keyboards': [
-            {
-                'buttons': [
-                    {
-                        'text': 'Открыть меню',
-                        'status': 1
-                    }
-                ],
-                'handler': 'otkr_menu'
-            },
-            {
-                'buttons': [
-                    {
-                        'text': 'Вывести файл',
-                        'status': 1
-                    }
-                ],
-                'handler': 'file_excel_loader',
-                'status': 1
-            },
-        ],
-        'type': 'row'
-    },
-    {
-        'name': 'menu3',
-        'keyboards': [
-            {
-                'buttons': [
-                    {
+                        'id': 'open_file',
                         'text': 'Где найти нужный тур?',
                         'status': 1
                     }
@@ -86,6 +90,42 @@ menu = [
                     }
                 ],
                 'handler': 'vozduh'
+            },
+            {
+                'buttons': [
+                    {
+                        'text': 'Индивид',
+                        'status': 1
+                    }
+                ],
+                'handler': None
+            },
+            {
+                'buttons': [
+                    {
+                        'text': 'ДРУГОЕ',
+                        'status': 1
+                    }
+                ],
+                'handler': None
+            },
+            {
+                'buttons': [
+                    {
+                        'text': 'Корректировка заявки',
+                        'status': 1
+                    }
+                ],
+                'handler': None
+            },
+            {
+                'buttons': [
+                    {
+                        'text': 'Отмена заявки',
+                        'status': 1
+                    }
+                ],
+                'handler': None
             },
         ],
         'type': 'row'

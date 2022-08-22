@@ -13,10 +13,10 @@ import re
 from excel_loader import loader
 from excel_loader import edit2, correct_number
 from handlers.client import msg_id_user, msg_id_bot, name_sud_vrem
-from keyboards import kb_client_menu
 import asyncio
 
-
+from kbs import menu
+from dinamic_kbs import arr
 
 user_name = {}
 sp_tur = {}
@@ -33,13 +33,28 @@ dop_inf = {}
 edit = {'is': 0}
 
 # создадим список на команд кторый должен сработать данный хендлер
-commands_data = ['Красная Поляна', 'Обзорная Сочи', '33 Водопада', 'Воронцовские пещеры', 'Каньоны Псахо (джип-тур)',
-                 'Мамонтово Ущелье (джип-тур)', 'Золотое Кольцо',
-                 'Абхазское застолье', 'Термальные Источники', 'Абхазский драйв (джип-тур)', 'Морская прогулка',
-                 'Рыбалка в море', 'Дайвинг', 'АРЕНДА ЯХТ',
-                 'Параплан', 'Шашлыки (индивидуальный)', 'Вечеринка в лесу',
-                 'Билеты на мероприятия', 'Эпоха времени', 'Солохаул (джип-тур)', 'Квадроциклы',
-                 'Конные Прогулки', 'Аквапарк', 'Сафари Парк', 'Форт Боярд', 'Квесты', 'ДРУГОЕ', 'Рафтинг']
+# commands_data = ['Красная Поляна', 'Обзорная Сочи', '33 Водопада', 'Воронцовские пещеры', 'Каньоны Псахо (джип-тур)',
+#                  'Мамонтово Ущелье (джип-тур)', 'Золотое Кольцо',
+#                  'Абхазское застолье', 'Термальные Источники', 'Абхазский драйв (джип-тур)', 'Морская прогулка',
+#                  'Рыбалка в море', 'Дайвинг', 'АРЕНДА ЯХТ',
+#                  'Параплан', 'Шашлыки (индивидуальный)', 'Вечеринка в лесу',
+#                  'Билеты на мероприятия', 'Эпоха времени', 'Солохаул (джип-тур)', 'Квадроциклы',
+#                  'Конные Прогулки', 'Аквапарк', 'Сафари Парк', 'Форт Боярд', 'Квесты', 'ДРУГОЕ', 'Рафтинг']
+
+commands_data = []
+
+for option in menu:
+
+    for keyboard in option['keyboards']:
+
+        _handler = keyboard['handler']
+
+        if _handler == 'dat_ukaz':
+
+            for button in keyboard['buttons']:
+                commands_data.append(button['text'])
+
+print(commands_data)
 
 # список исключений
 commands_excep = ['АРЕНДА ЯХТ', 'Вертолёт']#, 'ИНДИВИДУАЛЬНЫЙ ТУР', ]
@@ -446,7 +461,7 @@ async def ispravit(message : types.Message):
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
 
-    msgBot = await bot.send_message(message.chat.id, f"Повторите заявку", reply_markup=kb_client_menu)
+    msgBot = await bot.send_message(message.chat.id, f"Повторите заявку", reply_markup=arr['kb_client_menu'])
     msg_id_bot.append(isp)
     msg_id_bot.append(msgBot)
 
@@ -466,4 +481,3 @@ def register_handlers_opros(dp : Dispatcher):
     dp.register_message_handler(load_dop_inf, state=FSMAdvvod.dop_inf)
     dp.register_message_handler(verno, lambda message: 'ВСЁ ВЕРНО' in message.text)
     dp.register_message_handler(ispravit, lambda message: 'ИСПРАВИТЬ' in message.text)
-

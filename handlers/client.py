@@ -2,15 +2,16 @@ import copy
 from datetime import datetime
 from aiogram import types, Dispatcher
 from create_bot import dp, bot
-from keyboards import zz_zayav, kb_contact, kb_client_menu, kb_client_sochy, kb_client_abhaz, kb_client_voda
-from keyboards import kb_client_vozduh, kb_client_menu2, admin_panell_buttons, AdminPanell  #kb_client_proch,
+from keyboards import zz_zayav, kb_contact
+from keyboards import kb_client_menu2, admin_panell_buttons, AdminPanell  #kb_client_proch,
 from excel_loader import edit2
 from kbs import menu
+from dinamic_kbs import arr
 
 from client_commands import get_commands_client
 
 # список кому доступна кнопка вывод excel file
-excel_files = ['489322950', '1189955796', '631293008', '5295520075']
+excel_files = ['489322950', '1189955796', '631293008', '5295520075', '761301862']
 msg_id_bot = []
 msg_id_user = []
 # @dp.message_handler(commands=['start', 'help'])
@@ -91,7 +92,7 @@ async def contact(message):
     global phonenumber
     if message.contact is not None:
         if edit2['is'] == 0:
-            msgBot = await bot.send_message(message.chat.id, 'Меню', reply_markup=kb_client_menu)
+            msgBot = await bot.send_message(message.chat.id, 'Меню', reply_markup=arr['kb_client_menu'])
             msg_id_bot.append(msgBot)
             # print(msg_id)
         else:
@@ -131,7 +132,7 @@ paps = ('CОЧИ:\n----------\nКрасная поляна\nОбзорная С�
 async def sochy(message : types.Message):
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
-    msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=kb_client_sochy)
+    msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=arr['sochi'])
     msg_id_bot.append(msgBot)
 
     # for i in msg_id: # удаляем сообщение от бота
@@ -147,7 +148,7 @@ async def abhaz(message : types.Message):
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
 
-    msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=kb_client_abhaz)
+    msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=arr['abkhazia'])
     msg_id_bot.append(msgBot)
 
 name_sud_vrem = []
@@ -156,14 +157,14 @@ async def voda(message : types.Message):
     name_sud_vrem.append(1)
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
-    msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=kb_client_voda)
+    msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=arr['more'])
     msg_id_bot.append(msgBot)
 
 # @dp.message_handler(commands="Воздух")
 async def vozduh(message : types.Message):
     msgUser = message  # берем msg пользователя, чтобы потом удалить его
     msg_id_user.append(msgUser)
-    msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=kb_client_vozduh)
+    msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=arr['activ'])
     msg_id_bot.append(msgBot)
 
 # @dp.message_handler(lambda message: 'Админ панель' in message)
@@ -183,38 +184,36 @@ async def all_handler(message : types.Message):
 
         _name = option['name']
 
-        if _name != 'menu1':
+        for keyboard in option['keyboards']:
 
-            for keyboard in option['keyboards']:
+            _handler = keyboard['handler']
 
-                _handler = keyboard['handler']
+            if _handler != 'dat_ukaz' and  _handler != None:
 
-                if _handler != 'dat_ukaz':
+                for button in keyboard['buttons']:
 
-                    for button in keyboard['buttons']:
+                    text = button['text']
+                    status = button['status']
 
-                        text = button['text']
-                        status = button['status']
-
-                        if status == 1 and text == message.text:  # status 1 команда активна
-                            await eval(_handler)(message)  # eval(_handler) перевод str в функцию и (message) запуск
+                    if status == 1 and text == message.text:  # status 1 команда активна
+                        await eval(_handler)(message)  # eval(_handler) перевод str в функцию и (message) запуск
 
 
 cmnds = get_commands_client(menu)  # определяет команду клиента используя словарь из client_commands.py
+
 def regiter_handlers_client(dp : Dispatcher):
 
-    dp.register_message_handler(commands_start, commands=['start', 'help'])
     dp.register_message_handler(commands_start, commands=['start', 'help'])
     dp.register_message_handler(contact, content_types=['contact'])
     dp.register_message_handler(AdminPanellFunk, lambda message: message.text in 'Админ панель')
 
+    dp.register_message_handler(contact, content_types=['contact'])
+    dp.register_message_handler(otkr_menu, lambda message: 'Открыть меню' in message.text)
+    dp.register_message_handler(file_excel_loader, lambda message: 'Вывести файл' in message.text)
+
     dp.register_message_handler(all_handler, lambda message: message.text in cmnds)  # определяет нужную функцию используя словарь из kbs.py
 
-
-    # dp.register_message_handler(otkr_menu, lambda message: 'Открыть меню' in message.text)
-    dp.register_message_handler(contact, content_types=['contact'])
     # dp.register_message_handler(sochy, lambda message: 'СOЧИ' in message.text) # сочи о на анг, чтобы не среагировал на обзор на сочи кнопку
     # dp.register_message_handler(abhaz, lambda message: 'АБХАЗИЯ' in message.text)
     # dp.register_message_handler(voda, lambda message: 'МОРЕ' in message.text)
     # dp.register_message_handler(vozduh, lambda message: 'АКТИВ' in message.text)
-    # dp.register_message_handler(file_excel_loader, lambda message: 'Вывести файл' in message.text)
