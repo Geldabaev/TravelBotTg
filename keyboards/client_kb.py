@@ -9,13 +9,6 @@ zz_zayav = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 zz_zayav.add(zz)
 
 
-open_menu = KeyboardButton('Открыть меню')
-open_file = KeyboardButton('Вывести файл')
-open_menu_file = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-open_menu_file.row(open_menu, open_file)
-
-
-
 # поделиться контактом
 b1 = KeyboardButton('Поделиться', request_contact=True)
 kb_contact = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True) #resize_keyboard=True уменьшаем кнопки, one_time_keyboard=True одноразовая клавиатура

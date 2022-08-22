@@ -3,9 +3,8 @@ from datetime import datetime
 from aiogram import types, Dispatcher
 from create_bot import dp, bot
 from keyboards import zz_zayav, kb_contact, kb_client_menu, kb_client_sochy, kb_client_abhaz, kb_client_voda
-from keyboards import kb_client_vozduh, kb_client_menu2, open_menu_file  #kb_client_proch,
+from keyboards import kb_client_vozduh, kb_client_menu2, admin_panell_buttons, AdminPanell  #kb_client_proch,
 from excel_loader import edit2
-
 from kbs import menu
 
 from client_commands import get_commands_client
@@ -24,7 +23,7 @@ async def commands_start(message : types.Message):
         # кнопка вывести файл будет доступна только определенным людям
         if str(message.from_user.id) in excel_files:
             msgBot = await message.answer("Вас приветствует\nЧат-бот \"Сочифорния\"\n\nЕсли вы зашли не в тот пункт меню,\n и нужно вернуться назад,\nнапишите: /start\n\n"
-                             "Если уже начали оформлять заявку\n и что-то ввели не верно,\nнапишите слово: *отмена*", parse_mode= "Markdown", reply_markup=open_menu_file)
+                             "Если уже начали оформлять заявку\n и что-то ввели не верно,\nнапишите слово: *отмена*", parse_mode= "Markdown", reply_markup=AdminPanell)
             msg_id_bot.append(msgBot)
         else:
             msgBot = await message.answer("Вас приветствует\nЧат-бот \"Сочифорния\"\n\nЕсли вы зашли не в тот пункт меню,\n и нужно вернуться назад,\nнапишите: /start\n\n"
@@ -40,7 +39,7 @@ async def file_excel_loader(message : types.Message):
     global msgBot
     'для отправки файла excel'
     if str(message.from_user.id) in excel_files:  # файл могут получить только определенные люди
-        await message.reply_document(open('my_book.xlsx', 'rb'), reply_markup=open_menu_file)
+        await message.reply_document(open('my_book.xlsx', 'rb'), reply_markup=admin_panell_buttons)
     if msgBot is not None:
         await msgBot.delete()
         msgBot = None  # чтобы не вызывалось ошибка если он нажмет дважды на кнопку, так как первый раз смс удалено, и её нельзя удалить ещё раз
@@ -167,6 +166,14 @@ async def vozduh(message : types.Message):
     msgBot = await bot.send_message(message.chat.id, "Ваш выбор!", reply_markup=kb_client_vozduh)
     msg_id_bot.append(msgBot)
 
+# @dp.message_handler(lambda message: 'Админ панель' in message)
+async def AdminPanellFunk(message : types.Message):
+    await bot.send_message(message.chat.id, "Панель админа!!!", reply_markup=admin_panell_buttons)
+
+
+async def AddButtons(message : types.Message):
+    if str(message.from_user.id) in excel_files:
+        pass
 
 async def all_handler(message : types.Message):
 
@@ -199,6 +206,7 @@ def regiter_handlers_client(dp : Dispatcher):
     dp.register_message_handler(commands_start, commands=['start', 'help'])
     dp.register_message_handler(commands_start, commands=['start', 'help'])
     dp.register_message_handler(contact, content_types=['contact'])
+    dp.register_message_handler(AdminPanellFunk, lambda message: message.text in 'Админ панель')
 
     dp.register_message_handler(all_handler, lambda message: message.text in cmnds)  # определяет нужную функцию используя словарь из kbs.py
 
