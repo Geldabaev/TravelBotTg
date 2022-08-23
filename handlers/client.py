@@ -83,7 +83,7 @@ async def otkr_menu(message : types.Message):
     msg_id_user.append(msgUser)
     phone_contact = await phone_number(message.chat.id)  # чтобы не переспрашивать номер
     print(phone_contact, "phone_contact")
-    if phone_contact:
+    if phone_contact:  # номер есть, поэтому сразу открываем ему главное меню
         if edit2['is'] == 0:
             msgBot = await bot.send_message(message.chat.id, 'Меню', reply_markup=arr['kb_client_menu'])
             msg_id_bot.append(msgBot)

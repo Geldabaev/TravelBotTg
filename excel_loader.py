@@ -149,6 +149,7 @@ def write_zayav(number, id):
                 naz_bes = sheet[f'L{row}'].value
                 nom_tel_tur = sheet[f'M{row}'].value
                 dop_inf = sheet[f'N{row}'].value
+                book.close()
 
                 return user_name, sp_phone, sp_tur, data_day, vz_sk, stoim_vz, posadoch, stoim_chi_1, besplat, naz_bes, nom_tel_tur, dop_inf
 
@@ -170,7 +171,9 @@ async def phone_number(user_id):
     for row in range(2, sheet.max_row + 1):
         if int(sheet[f'B{row}'].value) == int(user_id):
             phone = int(sheet[f'D{row}'].value)  # если  id есть, берем его номер
+            book.close()
             return phone
+        book.close()
         return False  # его контакта нет
 
 
